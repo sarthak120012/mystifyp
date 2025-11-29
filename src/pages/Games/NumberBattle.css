@@ -1,0 +1,51 @@
+.battle-page {
+    background: linear-gradient(135deg, #667db6 0%, #0082c8 100%);
+}
+
+.battle-arena {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.current-number {
+    font-size: 80px;
+    font-weight: 900;
+    color: white;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+.battle-controls {
+    display: flex;
+    gap: 20px;
+}
+
+.battle-controls button {
+    padding: 15px 30px;
+    border-radius: 10px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+
+.battle-controls button:first-child {
+    background: #4caf50;
+    color: white;
+}
+
+.battle-controls button:last-child {
+    background: #f44336;
+    color: white;
+}
+
+.battle-controls button:active {
+    transform: scale(0.95);
+}
+
+.battle-message {
+    font-size: 18px;
+    color: white;
+    margin-top: 20px;
+}

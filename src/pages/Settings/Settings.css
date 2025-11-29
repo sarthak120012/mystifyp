@@ -1,0 +1,161 @@
+.settings-content {
+    max-width: 500px;
+}
+
+.settings-section {
+    background: var(--bg-glass);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-3);
+    color: var(--accent-primary);
+}
+
+.section-header h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.themes-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-2);
+}
+
+.theme-option {
+    position: relative;
+    padding: var(--space-3);
+    background: var(--bg-secondary);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--space-1);
+}
+
+.theme-option:hover {
+    border-color: var(--theme-color);
+}
+
+.theme-option.active {
+    border-color: var(--theme-color);
+    background: var(--bg-glass);
+    box-shadow: 0 0 24px var(--theme-color);
+}
+
+.theme-icon {
+    font-size: 32px;
+}
+
+.theme-option span {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.active-indicator {
+    position: absolute;
+    top: var(--space-1);
+    right: var(--space-1);
+    background: var(--theme-color);
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.settings-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+}
+
+.setting-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    text-align: left;
+}
+
+.setting-item:hover {
+    background: var(--bg-glass);
+    border-color: var(--accent-primary);
+}
+
+.settings-actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.delete-account-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-1);
+    padding: var(--space-3);
+    background: transparent;
+    border: 2px solid rgba(255, 0, 0, 0.3);
+    border-radius: var(--radius-full);
+    color: rgba(255, 0, 0, 0.8);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.delete-account-btn:hover {
+    background: rgba(255, 0, 0, 0.1);
+    border-color: rgba(255, 0, 0, 0.6);
+}
+
+.delete-confirm-btn {
+    padding: var(--space-3) var(--space-4);
+    background: #FF4458;
+    border: none;
+    border-radius: var(--radius-lg);
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.delete-confirm-btn:hover {
+    background: #E63946;
+    transform: scale(1.05);
+}
+
+.modal-actions {
+    display: flex;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+}
+
+.modal-actions button {
+    flex: 1;
+}

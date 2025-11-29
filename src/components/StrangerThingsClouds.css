@@ -1,0 +1,180 @@
+.st-sky-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: linear-gradient(135deg, #0a0520 0%, #1a0a3a 50%, #0d0218 100%);
+    overflow: hidden;
+    pointer-events: none;
+    perspective: 1000px;
+    perspective-origin: 50% 50%;
+}
+
+/* Vignette Overlay with Purple Tint */
+.st-sky-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        radial-gradient(circle at 30% 40%, rgba(80, 0, 120, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 70% 60%, rgba(0, 80, 120, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at center, transparent 20%, rgba(0, 0, 0, 0.9) 100%);
+    z-index: 10;
+    pointer-events: none;
+}
+
+/* Cyan/Purple Pulse Background */
+.st-sky-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, #2a0055 0%, #001a2a 100%);
+    animation: colorPulse 8s infinite alternate;
+    z-index: 0;
+}
+
+@keyframes colorPulse {
+    0% {
+        opacity: 0.3;
+        transform: scale(1);
+        filter: hue-rotate(0deg);
+    }
+
+    100% {
+        opacity: 0.6;
+        transform: scale(1.1);
+        filter: hue-rotate(20deg);
+    }
+}
+
+.st-fog-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 100%;
+    background: url('https://raw.githubusercontent.com/s1mpson/css-clouds/master/images/clouds.png');
+    background-size: cover;
+    opacity: 0.6;
+    filter: sepia(100%) saturate(1500%) hue-rotate(220deg) contrast(1.5) brightness(0.9);
+    mix-blend-mode: screen;
+    transform-style: preserve-3d;
+    will-change: transform;
+}
+
+.layer-1 {
+    animation: moveFog 60s linear infinite;
+    z-index: 1;
+    opacity: 0.5;
+    filter: sepia(100%) saturate(1800%) hue-rotate(200deg) contrast(1.6) brightness(0.8);
+}
+
+.layer-2 {
+    animation: moveFog 40s linear infinite reverse;
+    z-index: 2;
+    opacity: 0.4;
+    transform: scale(1.2);
+    filter: sepia(100%) saturate(1500%) hue-rotate(240deg) contrast(1.4) brightness(1);
+}
+
+.layer-3 {
+    animation: moveFog 30s linear infinite;
+    z-index: 3;
+    opacity: 0.3;
+    transform: scale(1.5);
+    filter: sepia(100%) saturate(1200%) hue-rotate(180deg) contrast(1.5) brightness(0.9);
+}
+
+@keyframes moveFog {
+    0% {
+        transform: translate3d(0, 0, 0);
+    }
+
+    100% {
+        transform: translate3d(-50%, 0, 0);
+    }
+}
+
+.st-lightning {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        radial-gradient(ellipse at 30% 20%, rgba(0, 200, 255, 0.4) 0%, transparent 30%),
+        radial-gradient(ellipse at 70% 40%, rgba(150, 0, 255, 0.3) 0%, transparent 25%),
+        linear-gradient(to bottom, rgba(100, 0, 255, 0.2) 0%, transparent 60%);
+    opacity: 0;
+    z-index: 4;
+    animation: lightning 10s infinite;
+    mix-blend-mode: screen;
+    transform-style: preserve-3d;
+}
+
+@keyframes lightning {
+
+    0%,
+    90%,
+    100% {
+        opacity: 0;
+    }
+
+    92% {
+        opacity: 0.5;
+    }
+
+    93% {
+        opacity: 0;
+    }
+
+    94% {
+        opacity: 0.4;
+    }
+
+    96% {
+        opacity: 0;
+    }
+}
+
+.st-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        radial-gradient(#00d4ff 1px, transparent 1px),
+        radial-gradient(#8800ff 1px, transparent 1px),
+        radial-gradient(#fff 1px, transparent 1px);
+    background-size: 40px 40px, 60px 60px, 80px 80px;
+    background-position: 0 0, 30px 30px, 15px 15px;
+    opacity: 0.5;
+    animation: particles 20s linear infinite;
+    z-index: 5;
+    transform-style: preserve-3d;
+}
+
+@keyframes particles {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
+
+    100% {
+        transform: translateY(-100px) rotate(5deg);
+        opacity: 0.5;
+    }
+}

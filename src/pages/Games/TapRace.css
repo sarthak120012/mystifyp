@@ -1,0 +1,100 @@
+.taprace-page {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    min-height: 100vh;
+}
+
+.race-track {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.score-board {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: var(--space-3);
+    background: var(--bg-glass);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-color);
+}
+
+.my-score,
+.opp-score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.my-score strong {
+    color: #4AB3FF;
+    font-size: 24px;
+}
+
+.opp-score strong {
+    color: #FF4AB3;
+    font-size: 24px;
+}
+
+.progress-bars {
+    display: flex;
+    gap: var(--space-4);
+    height: 300px;
+    width: 100%;
+    justify-content: center;
+}
+
+.progress-container {
+    width: 60px;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-full);
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-fill {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-radius: var(--radius-full);
+    transition: height 0.2s ease;
+}
+
+.my-progress {
+    background: #4AB3FF;
+    box-shadow: 0 0 20px #4AB3FF;
+}
+
+.opp-progress {
+    background: #FF4AB3;
+    box-shadow: 0 0 20px #FF4AB3;
+}
+
+.tap-button {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    border: none;
+    color: white;
+    font-weight: 900;
+    font-size: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(255, 165, 0, 0.5);
+    transition: transform 0.1s;
+}
+
+.tap-button:active {
+    transform: scale(0.95);
+}
