@@ -5,6 +5,7 @@ import { Search as SearchIcon, UserPlus, UserCheck, Loader } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
 import { useAuthStore } from '../../store/authStore'
 import toast from 'react-hot-toast'
+import './Search.css'
 
 const Search = () => {
     const navigate = useNavigate()
