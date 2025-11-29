@@ -421,31 +421,13 @@ html {
   height: 6px;
 }
 
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
---text-secondary: #6B7280;
+--bg-glass: rgba(255, 255, 255, 0.25);
+--text-primary: #1a1a2e;
+--text-secondary: #4a4a6e;
 --accent-primary: #4AB3FF;
---accent-secondary: #6D5CFF;
---accent-glow: rgba(74, 179, 255, 0.3);
---border-color: rgba(107, 114, 128, 0.2);
---shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
---shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
---shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
-/* The closing brace '}' here was a syntax error. Assuming these variables are meant to be global, they should be inside a :root or html selector. For this fix, I'm removing the misplaced '}' as it was not closing any opened block. If these variables were intended to be part of a specific selector, that selector would need to be added. */
-
-/* Bubble Dream Theme - Lighter */
-[data-theme="bubble"] {
-  --bg-primary: linear-gradient(135deg, #7DCDFF 0%, #C99DFF 100%);
-  --bg-secondary: rgba(227, 247, 255, 0.2);
-  --bg-glass: rgba(255, 255, 255, 0.25);
-  --text-primary: #1a1a2e;
-  --text-secondary: #4a4a6e;
-  --accent-primary: #4AB3FF;
-  --accent-secondary: #A85CFF;
-  --accent-glow: rgba(168, 92, 255, 0.4);
-  --border-color: rgba(74, 179, 255, 0.3);
+--accent-secondary: #A85CFF;
+--accent-glow: rgba(168, 92, 255, 0.4);
+--border-color: rgba(74, 179, 255, 0.3);
 }
 
 /* CatPlay Cute Theme - Lighter */
