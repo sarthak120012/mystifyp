@@ -376,64 +376,63 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-
-    .profile-layout,
-    .profile-layout-reverse {
+    .profile-layout {
         flex-direction: column;
         align-items: center;
+        gap: var(--space-4);
     }
 
-    .profile-left,
+    .profile-left {
+        width: 100%;
+        max-width: 100%;
+        order: 2;
+    }
+
     .profile-right-avatar {
         width: 100%;
-        max-width: 300px;
+        order: 1;
     }
 
-    .profile-right {
-        width: 100%;
-    }
-
-    .profile-stats-horizontal {
-        flex-wrap: wrap;
-    }
-
-    .stat-card {
-        min-width: 100px;
-    }
-
-    .profile-actions-vertical {
-        flex-direction: column;
-        width: 100%;
-    }
-}
-
-@media (max-width: 480px) {
-    .profile-avatar {
+    .profile-avatar-large {
         width: 100px;
         height: 100px;
     }
 
-    .profile-avatar-large {
-        width: 120px;
-        height: 120px;
+    .profile-stats-horizontal {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        gap: var(--space-2);
     }
 
-    .profile-info h1,
-    .profile-left h1,
-    .profile-right-avatar h1 {
-        font-size: 20px;
+    .stat-card {
+        flex: 1;
+        min-width: 0;
+        padding: var(--space-2);
     }
 
-    .profile-stats {
-        gap: var(--space-3);
-    }
-
-    .stat strong,
     .stat-card strong {
-        font-size: 24px;
+        font-size: 18px;
     }
 
     .stat-card span {
-        font-size: 12px;
+        font-size: 11px;
+    }
+
+    .edit-btn-large {
+        width: 100%;
+        margin-top: var(--space-3);
+        font-size: 14px;
+        padding: var(--space-2) var(--space-3);
+    }
+
+    .profile-posts-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2px;
+    }
+
+    .settings-btn {
+        width: 40px;
+        height: 40px;
     }
 }

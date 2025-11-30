@@ -94,13 +94,32 @@ export const CreatePost = ({ onPostCreated }) => {
 
     return (
         <>
-            <LiquidGlassButton
-                onClick={() => setIsOpen(true)}
-                icon={<Image size={20} />}
-                fullWidth
-            >
-                Create Post
-            </LiquidGlassButton>
+            <div className="desktop-create-btn">
+                <LiquidGlassButton
+                    onClick={() => setIsOpen(true)}
+                    icon={<Image size={20} />}
+                    fullWidth
+                >
+                    Create Post
+                </LiquidGlassButton>
+            </div>
+
+            <div className="mobile-create-fab">
+                <label className="fab-btn">
+                    <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => {
+                            handleImageChange(e)
+                            setIsOpen(true)
+                        }}
+                        style={{ display: 'none' }}
+                    />
+                    <div className="plus-icon">
+                        <Upload size={24} />
+                    </div>
+                </label>
+            </div>
 
             <AnimatePresence>
                 {isOpen && (
@@ -134,47 +153,49 @@ export const CreatePost = ({ onPostCreated }) => {
                                     placeholder="What's on your mind?"
                                     value={caption}
                                     onChange={(e) => setCaption(e.target.value)}
-                                    className="input"
-                                    rows={3}
+                                    className="input caption-input"
+                                    rows={4}
                                     maxLength={500}
                                     disabled={uploading}
                                 />
 
-                                {imagePreview ? (
-                                    <div className="image-preview">
-                                        <img src={imagePreview} alt="Preview" />
-                                        <button
-                                            type="button"
-                                            onClick={handleRemoveImage}
-                                            className="remove-image-btn"
-                                            disabled={uploading}
-                                        >
-                                            <X size={20} />
-                                        </button>
+                                {imagePreview && (
+                                    <div className="image-thumbnail-container">
+                                        <div className="image-thumbnail">
+                                            <img src={imagePreview} alt="Preview" />
+                                            <button
+                                                type="button"
+                                                onClick={handleRemoveImage}
+                                                className="remove-thumbnail-btn"
+                                                disabled={uploading}
+                                            >
+                                                <X size={16} />
+                                            </button>
+                                        </div>
                                     </div>
-                                ) : (
-                                    <label className="upload-area">
+                                )}
+
+                                <div className="post-actions">
+                                    <label className="image-picker-btn">
                                         <input
                                             type="file"
                                             accept="image/*"
                                             onChange={handleImageChange}
-                                            disabled={uploading}
+                                            disabled={uploading || imagePreview}
                                             style={{ display: 'none' }}
                                         />
-                                        <Upload size={32} />
-                                        <p>Click to upload image</p>
-                                        <span>Max 5MB</span>
+                                        <Image size={20} />
+                                        <span>{imagePreview ? 'Image Added' : 'Add Image'}</span>
                                     </label>
-                                )}
 
-                                <LiquidGlassButton
-                                    type="submit"
-                                    fullWidth
-                                    disabled={uploading || (!caption.trim() && !imageFile)}
-                                    icon={uploading ? <Loader className="spin" size={20} /> : <Image size={20} />}
-                                >
-                                    {uploading ? 'Posting...' : 'Post'}
-                                </LiquidGlassButton>
+                                    <LiquidGlassButton
+                                        type="submit"
+                                        disabled={uploading || (!caption.trim() && !imageFile)}
+                                        icon={uploading ? <Loader className="spin" size={20} /> : <Upload size={20} />}
+                                    >
+                                        {uploading ? 'Posting...' : 'Post'}
+                                    </LiquidGlassButton>
+                                </div>
                             </form>
                         </motion.div>
                     </motion.div>
