@@ -1,4 +1,5 @@
 {
+    "name": "mystify_app",
     "rewrites": [
         {
             "source": "/(.*)",
