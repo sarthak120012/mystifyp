@@ -1,9 +1,0 @@
-{
-    "name": "mystify_app_official",
-    "rewrites": [
-        {
-            "source": "/(.*)",
-            "destination": "/index.html"
-        }
-    ]
-}
