@@ -1,5 +1,5 @@
 {
-    "name": "mystify-app-official",
+    "name": "mystify_app_official",
     "rewrites": [
         {
             "source": "/(.*)",
