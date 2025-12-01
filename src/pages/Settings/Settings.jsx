@@ -18,7 +18,8 @@ const Settings = () => {
     const themes = [
         { id: 'bubble', name: 'Bubble Dream', icon: '🌊', color: '#A85CFF' },
         { id: 'cat', name: 'CatPlay Cute', icon: '🐱', color: '#FF9CB7' },
-        { id: 'ultra', name: 'Ultra Vision', icon: '🌌', color: '#5200FF' }
+        { id: 'ultra', name: 'Ultra Vision', icon: '🌌', color: '#5200FF' },
+        { id: 'coffee', name: 'Coffee Break', icon: '☕', color: '#8D6E63' }
     ]
 
     const handleThemeChange = async (themeId) => {
@@ -111,12 +112,12 @@ const Settings = () => {
                         <h2>Legal</h2>
                     </div>
                     <div className="settings-list">
-                        <button className="settings-item" onClick={() => toast.info('Privacy policy coming soon')}>
+                        <button className="settings-item" onClick={() => navigate('/privacy-policy')}>
                             <FileText size={20} />
                             <span>Privacy Policy</span>
                             <ChevronRight size={20} />
                         </button>
-                        <button className="settings-item" onClick={() => toast.info('Terms coming soon')}>
+                        <button className="settings-item" onClick={() => navigate('/terms-conditions')}>
                             <FileText size={20} />
                             <span>Terms of Service</span>
                             <ChevronRight size={20} />

@@ -25,6 +25,8 @@ import Leaderboard from './pages/Leaderboard/Leaderboard'
 import Vault from './pages/Vault/Vault'
 import Notifications from './pages/Notifications/Notifications'
 import EditProfile from './pages/Profile/EditProfile'
+import PrivacyPolicy from './pages/Legal/PrivacyPolicy'
+import TermsConditions from './pages/Legal/TermsConditions'
 
 import './styles/index.css'
 
@@ -146,6 +148,8 @@ function App() {
             path="/edit-profile"
             element={user ? <EditProfile /> : <Navigate to="/signin" />}
           />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-conditions" element={<TermsConditions />} />
 
           {/* Default Route */}
           <Route path="*" element={<Navigate to={user ? "/home" : "/signin"} />} />

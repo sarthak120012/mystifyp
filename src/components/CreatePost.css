@@ -14,10 +14,9 @@
     .mobile-create-fab {
         display: block;
         position: fixed;
-        bottom: 80px;
-        /* Above bottom nav */
+        bottom: calc(80px + env(safe-area-inset-bottom));
         right: 20px;
-        z-index: 100;
+        z-index: 2000;
     }
 
     .fab-btn {

@@ -17,6 +17,7 @@ const Onboarding = () => {
     // Step 1: Username & DOB
     const [username, setUsername] = useState('')
     const [dateOfBirth, setDateOfBirth] = useState('')
+    const [gender, setGender] = useState('')
     const [bio, setBio] = useState('')
 
     // Step 2: Avatar Selection
@@ -51,6 +52,10 @@ const Onboarding = () => {
             toast.error('Please enter your date of birth')
             return
         }
+        if (!gender) {
+            toast.error('Please select your gender')
+            return
+        }
         setStep(2)
     }
 
@@ -71,8 +76,9 @@ const Onboarding = () => {
                 .upsert({
                     id: user.id,
                     username: username.toLowerCase().replace(/\s+/g, ''),
-                    full_name: username, // Default full_name to username since we removed the field
-                    date_of_birth: dateOfBirth,
+                    full_name: username,
+                    // date_of_birth: dateOfBirth, // Column missing in DB
+                    gender: gender,
                     bio: bio || null,
                     avatar_url: avatarUrl,
                     updated_at: new Date().toISOString()
@@ -139,6 +145,20 @@ const Onboarding = () => {
                                         className="input"
                                         style={{ color: dateOfBirth ? 'var(--text-primary)' : 'var(--text-secondary)' }}
                                     />
+                                </div>
+
+                                <div className="input-group">
+                                    <select
+                                        value={gender}
+                                        onChange={(e) => setGender(e.target.value)}
+                                        className="input"
+                                        style={{ color: gender ? 'var(--text-primary)' : 'var(--text-secondary)' }}
+                                    >
+                                        <option value="" disabled>Select Gender</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Other">Other</option>
+                                    </select>
                                 </div>
 
                                 <div className="input-group">
@@ -222,7 +242,7 @@ const Onboarding = () => {
                     )}
                 </AnimatePresence>
             </div>
-        </div>
+        </div >
     )
 }
 

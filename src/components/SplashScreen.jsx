@@ -59,7 +59,7 @@ export const SplashScreen = ({ onFinish }) => {
                             transition={{ delay: 0.5 }}
                             className="splash-subtitle"
                         >
-                            Social • Chat • Gaming
+                            Anonymous Chat
                         </motion.p>
 
                         <motion.div

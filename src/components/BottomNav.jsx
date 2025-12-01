@@ -1,6 +1,6 @@
 import React from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
-import { Home, Search, MessageCircle, Gamepad2, User, Trophy } from 'lucide-react'
+import { Home, Search, MessageCircle, Gamepad2, User, Users } from 'lucide-react'
 import { motion } from 'framer-motion'
 import './BottomNav.css'
 
@@ -10,7 +10,7 @@ export const BottomNav = () => {
     const navItems = [
         { path: '/home', icon: Home, label: 'Home' },
         { path: '/search', icon: Search, label: 'Search' },
-        { path: '/leaderboard', icon: Trophy, label: 'Ranks' },
+        { path: '/leaderboard', icon: Users, label: 'Community' },
         { path: '/chat', icon: MessageCircle, label: 'Chat' },
         { path: '/profile', icon: User, label: 'Profile' }
     ]

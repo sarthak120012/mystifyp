@@ -13,6 +13,7 @@ const EditProfile = () => {
     const { user, profile, setProfile } = useAuthStore()
     const [username, setUsername] = useState(profile?.username || '')
     const [bio, setBio] = useState(profile?.bio || '')
+    const [gender, setGender] = useState(profile?.gender || '')
     const [avatarUrl, setAvatarUrl] = useState(profile?.avatar_url || '')
     const [loading, setLoading] = useState(false)
     const [avatarLoading, setAvatarLoading] = useState(false)
@@ -69,6 +70,7 @@ const EditProfile = () => {
                 .update({
                     username: username.trim(),
                     bio: bio.trim() || null,
+                    gender: gender,
                     avatar_url: avatarUrl
                 })
                 .eq('id', user.id)
@@ -147,6 +149,20 @@ const EditProfile = () => {
                         <span className="input-hint">
                             Only lowercase letters, numbers, and underscores
                         </span>
+                    </div>
+
+                    <div className="form-field">
+                        <label>Gender</label>
+                        <select
+                            value={gender}
+                            onChange={(e) => setGender(e.target.value)}
+                            className="input"
+                        >
+                            <option value="" disabled>Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
                     </div>
 
                     <div className="form-field">
