@@ -70,12 +70,20 @@ const Onboarding = () => {
         try {
             const avatarUrl = avatars[selectedAvatar].url
 
+            // Log for debugging
+            console.log('Selected avatar URL:', avatarUrl)
+
+            // Validate avatar URL
+            if (!avatarUrl || !avatarUrl.startsWith('http')) {
+                throw new Error('Invalid avatar URL generated')
+            }
+
             // Create or update profile
-            const { error } = await supabase
+            const { error, data } = await supabase
                 .from('profiles')
                 .upsert({
                     id: user.id,
-                    username: username.toLowerCase().replace(/\s+/g, ''),
+                    username: username.toLowerCase().replace(/\\s+/g, ''),
                     full_name: username,
                     // date_of_birth: dateOfBirth, // Column missing in DB
                     gender: gender,
@@ -84,14 +92,18 @@ const Onboarding = () => {
                     updated_at: new Date().toISOString()
                 })
 
-            if (error) throw error
+            if (error) {
+                console.error('Supabase error:', error)
+                throw error
+            }
 
+            console.log('Profile created:', data)
             await refreshProfile()
             toast.success('Profile created successfully!')
             navigate('/home')
         } catch (error) {
-            toast.error(error.message)
             console.error('Profile creation error:', error)
+            toast.error(error.message || 'Failed to create profile. Please try again.')
         } finally {
             setLoading(false)
         }
