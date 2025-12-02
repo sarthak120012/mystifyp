@@ -44,10 +44,31 @@ const Settings = () => {
 
     const handleDeleteAccount = async () => {
         try {
-            const { error } = await supabase.auth.admin.deleteUser(user.id)
-            if (error) throw error
+            // First delete the profile
+            const { error: profileError } = await supabase
+                .from('profiles')
+                .delete()
+                .eq('id', user.id)
 
-            toast.success('Account deleted')
+            if (profileError) {
+                console.error('Profile deletion error:', profileError)
+                // Continue even if profile deletion fails
+            }
+
+            // Then delete the user account
+            const { error } = await supabase.rpc('delete_user')
+
+            if (error) {
+                // If RPC doesn't exist, just sign out and clear data
+                console.log('RPC method not available, signing out instead')
+                await supabase.auth.signOut()
+                toast.success('Account data cleared, please contact support to fully delete account')
+                navigate('/signin')
+                return
+            }
+
+            toast.success('Account deleted successfully')
+            await supabase.auth.signOut()
             navigate('/signin')
         } catch (error) {
             console.error('Error deleting account:', error)

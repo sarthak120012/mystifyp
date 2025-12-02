@@ -52,10 +52,7 @@ const Onboarding = () => {
             toast.error('Please enter your date of birth')
             return
         }
-        if (!gender) {
-            toast.error('Please select your gender')
-            return
-        }
+        // Gender field removed - not in database schema
         setStep(2)
     }
 
@@ -86,7 +83,7 @@ const Onboarding = () => {
                     username: username.toLowerCase().replace(/\\s+/g, ''),
                     full_name: username,
                     // date_of_birth: dateOfBirth, // Column missing in DB
-                    gender: gender,
+                    // gender: gender, // Column missing in DB
                     bio: bio || null,
                     avatar_url: avatarUrl,
                     updated_at: new Date().toISOString()

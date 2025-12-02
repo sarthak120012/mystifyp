@@ -70,7 +70,7 @@ const EditProfile = () => {
                 .update({
                     username: username.trim(),
                     bio: bio.trim() || null,
-                    gender: gender,
+                    // gender: gender, // Column missing in DB
                     avatar_url: avatarUrl
                 })
                 .eq('id', user.id)
