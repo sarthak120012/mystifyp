@@ -131,9 +131,6 @@ const Profile = () => {
                     {profile?.bio && (
                         <p className="profile-bio-center">{profile.bio}</p>
                     )}
-                    {profile?.gender && (
-                        <span className="profile-gender-badge">{profile.gender}</span>
-                    )}
                 </div>
             </div>
 
