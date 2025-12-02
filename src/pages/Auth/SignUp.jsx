@@ -6,6 +6,7 @@ import { supabase } from '../../lib/supabase'
 import { LiquidGlassButton } from '../../components/LiquidGlassButton'
 import toast from 'react-hot-toast'
 import './Auth.css'
+import './AuthInput.css'
 
 const SignUp = () => {
     const navigate = useNavigate()

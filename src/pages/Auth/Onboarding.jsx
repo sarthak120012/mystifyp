@@ -7,6 +7,7 @@ import { useAuthStore } from '../../store/authStore'
 import toast from 'react-hot-toast'
 import { LiquidGlassButton } from '../../components/LiquidGlassButton'
 import './Auth.css'
+import './AuthInput.css'
 
 const Onboarding = () => {
     const navigate = useNavigate()
@@ -16,9 +17,51 @@ const Onboarding = () => {
 
     // Step 1: Username & DOB
     const [username, setUsername] = useState('')
+    const [usernameAvailable, setUsernameAvailable] = useState(null)
+    const [checkingUsername, setCheckingUsername] = useState(false)
     const [dateOfBirth, setDateOfBirth] = useState('')
     const [gender, setGender] = useState('')
     const [bio, setBio] = useState('')
+
+    // Check username availability
+    const checkUsernameAvailability = async (username) => {
+        if (!username || username.length < 3) {
+            setUsernameAvailable(null)
+            return
+        }
+
+        setCheckingUsername(true)
+        try {
+            const { data, error } = await supabase
+                .from('profiles')
+                .select('username')
+                .eq('username', username.toLowerCase().trim())
+                .single()
+
+            if (error && error.code === 'PGRST116') {
+                // Username not found, it's available
+                setUsernameAvailable(true)
+            } else if (data) {
+                // Username exists
+                setUsernameAvailable(false)
+            }
+        } catch (error) {
+            console.error('Error checking username:', error)
+        } finally {
+            setCheckingUsername(false)
+        }
+    }
+
+    // Debounce username check
+    React.useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            if (username) {
+                checkUsernameAvailability(username)
+            }
+        }, 500)
+
+        return () => clearTimeout(timeoutId)
+    }, [username])
 
     // Step 2: Avatar Selection
     const [selectedAvatar, setSelectedAvatar] = useState(null)
@@ -43,16 +86,32 @@ const Onboarding = () => {
 
     const avatars = generateAvatars()
 
-    const handleStep1Next = () => {
+    const handleStep1Next = async () => {
         if (!username.trim()) {
             toast.error('Please enter a username')
+            return
+        }
+        if (username.length < 3) {
+            toast.error('Username must be at least 3 characters')
             return
         }
         if (!dateOfBirth) {
             toast.error('Please enter your date of birth')
             return
         }
-        // Gender field removed - not in database schema
+
+        // Check username availability before proceeding
+        if (usernameAvailable === false) {
+            toast.error('Username is already taken. Please choose another.')
+            return
+        }
+
+        if (usernameAvailable === null) {
+            // Force check if not done yet
+            await checkUsernameAvailability(username)
+            return // Let user click next again after check
+        }
+
         setStep(2)
     }
 
@@ -65,32 +124,50 @@ const Onboarding = () => {
         setLoading(true)
 
         try {
-            const avatarUrl = avatars[selectedAvatar].url
+            // FINAL username check before creating profile
+            const cleanUsername = username.toLowerCase().trim().replace(/\s+/g, '')
 
-            // Log for debugging
-            console.log('Selected avatar URL:', avatarUrl)
+            const { data: existingUser } = await supabase
+                .from('profiles')
+                .select('username')
+                .eq('username', cleanUsername)
+                .single()
+
+            if (existingUser) {
+                toast.error('Username is already taken. Please go back and choose another.')
+                setLoading(false)
+                return
+            }
+
+            const avatarUrl = avatars[selectedAvatar].url
 
             // Validate avatar URL
             if (!avatarUrl || !avatarUrl.startsWith('http')) {
                 throw new Error('Invalid avatar URL generated')
             }
 
-            // Create or update profile
+            // Create profile
             const { error, data } = await supabase
                 .from('profiles')
-                .upsert({
+                .insert({
                     id: user.id,
-                    username: username.toLowerCase().replace(/\\s+/g, ''),
+                    username: cleanUsername,
                     full_name: username,
-                    // date_of_birth: dateOfBirth, // Column missing in DB
-                    // gender: gender, // Column missing in DB
                     bio: bio || null,
                     avatar_url: avatarUrl,
+                    created_at: new Date().toISOString(),
                     updated_at: new Date().toISOString()
                 })
+                .select()
+                .single()
 
             if (error) {
                 console.error('Supabase error:', error)
+                if (error.code === '23505') {
+                    toast.error('Username already exists. Please choose another.')
+                    setStep(1) // Go back to step 1
+                    return
+                }
                 throw error
             }
 
@@ -130,127 +207,108 @@ const Onboarding = () => {
                                 </h2>
                                 <p className="onboarding-description">
                                     Tell us a bit about yourself
-                                </p>
+                                    value={dateOfBirth}
+                                    onChange={(e) => setDateOfBirth(e.target.value)}
+                                    className="input"
+                                    style={{ color: dateOfBirth ? 'var(--text-primary)' : 'var(--text-secondary)' }}
+                                    />
                             </div>
 
-                            <div className="auth-form">
-                                <div className="input-group">
-                                    <input
-                                        type="text"
-                                        placeholder="Username (no spaces)"
-                                        value={username}
-                                        onChange={(e) => setUsername(e.target.value)}
-                                        className="input"
-                                        maxLength={20}
-                                    />
-                                </div>
-
-                                <div className="input-group">
-                                    <input
-                                        type="date"
-                                        placeholder="Date of Birth"
-                                        value={dateOfBirth}
-                                        onChange={(e) => setDateOfBirth(e.target.value)}
-                                        className="input"
-                                        style={{ color: dateOfBirth ? 'var(--text-primary)' : 'var(--text-secondary)' }}
-                                    />
-                                </div>
-
-                                <div className="input-group">
-                                    <select
-                                        value={gender}
-                                        onChange={(e) => setGender(e.target.value)}
-                                        className="input"
-                                        style={{ color: gender ? 'var(--text-primary)' : 'var(--text-secondary)' }}
-                                    >
-                                        <option value="" disabled>Select Gender</option>
-                                        <option value="Male">Male</option>
-                                        <option value="Female">Female</option>
-                                        <option value="Other">Other</option>
-                                    </select>
-                                </div>
-
-                                <div className="input-group">
-                                    <textarea
-                                        placeholder="Bio (optional)"
-                                        value={bio}
-                                        onChange={(e) => setBio(e.target.value)}
-                                        className="input"
-                                        rows={3}
-                                        maxLength={150}
-                                        style={{ resize: 'none', paddingTop: '12px' }}
-                                    />
-                                </div>
-
-                                <LiquidGlassButton onClick={handleStep1Next} fullWidth>
-                                    Next
-                                </LiquidGlassButton>
+                            <div className="input-group">
+                                <select
+                                    value={gender}
+                                    onChange={(e) => setGender(e.target.value)}
+                                    className="input"
+                                    style={{ color: gender ? 'var(--text-primary)' : 'var(--text-secondary)' }}
+                                >
+                                    <option value="" disabled>Select Gender</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                </select>
                             </div>
+
+                            <div className="input-group">
+                                <textarea
+                                    placeholder="Bio (optional)"
+                                    value={bio}
+                                    onChange={(e) => setBio(e.target.value)}
+                                    className="input"
+                                    rows={3}
+                                    maxLength={150}
+                                    style={{ resize: 'none', paddingTop: '12px' }}
+                                />
+                            </div>
+
+                            <LiquidGlassButton onClick={handleStep1Next} fullWidth>
+                                Next
+                            </LiquidGlassButton>
+                        </div>
                         </motion.div>
                     )}
 
-                    {step === 2 && (
-                        <motion.div
-                            key="step2"
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: -20 }}
-                            className="onboarding-card"
-                        >
-                            <div className="onboarding-header">
-                                <h2 className="onboarding-title">
-                                    <Image size={28} style={{ display: 'inline', marginRight: '8px' }} />
-                                    Choose Your Avatar
-                                </h2>
-                                <p className="onboarding-description">
-                                    Pick one or generate new avatars
-                                </p>
-                            </div>
+                {step === 2 && (
+                    <motion.div
+                        key="step2"
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -20 }}
+                        className="onboarding-card"
+                    >
+                        <div className="onboarding-header">
+                            <h2 className="onboarding-title">
+                                <Image size={28} style={{ display: 'inline', marginRight: '8px' }} />
+                                Choose Your Avatar
+                            </h2>
+                            <p className="onboarding-description">
+                                Pick one or generate new avatars
+                            </p>
+                        </div>
 
-                            <div className="avatar-grid">
-                                {avatars.map((avatar) => (
-                                    <motion.div
-                                        key={avatar.id}
-                                        whileHover={{ scale: 1.05 }}
-                                        whileTap={{ scale: 0.95 }}
-                                        className={`avatar-option ${selectedAvatar === avatar.id ? 'selected' : ''}`}
-                                        onClick={() => setSelectedAvatar(avatar.id)}
-                                    >
-                                        <img src={avatar.url} alt={`Avatar ${avatar.id}`} />
-                                    </motion.div>
-                                ))}
-                            </div>
-
-                            <div style={{ display: 'flex', gap: 'var(--space-2)' }}>
-                                <LiquidGlassButton
-                                    onClick={() => setAvatarSeed(Date.now())}
-                                    icon={<RefreshCw size={18} />}
-                                    fullWidth
-                                    variant="secondary"
+                        <div className="avatar-grid">
+                            {avatars.map((avatar) => (
+                                <motion.div
+                                    key={avatar.id}
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    className={`avatar-option ${selectedAvatar === avatar.id ? 'selected' : ''}`}
+                                    onClick={() => setSelectedAvatar(avatar.id)}
                                 >
-                                    Generate New
-                                </LiquidGlassButton>
-                                <LiquidGlassButton
-                                    onClick={handleComplete}
-                                    fullWidth
-                                    disabled={loading}
-                                >
-                                    {loading ? 'Creating...' : 'Complete'}
-                                </LiquidGlassButton>
-                            </div>
+                                    <img src={avatar.url} alt={`Avatar ${avatar.id}`} />
+                                </motion.div>
+                            ))}
+                        </div>
 
+                        <div style={{ display: 'flex', gap: 'var(--space-2)' }}>
                             <LiquidGlassButton
-                                onClick={() => setStep(1)}
+                                onClick={() => setAvatarSeed(Date.now())}
+                                icon={<RefreshCw size={18} />}
                                 fullWidth
                                 variant="secondary"
-                                style={{ marginTop: 'var(--space-2)' }}
                             >
-                                Back
+                                Generate New
                             </LiquidGlassButton>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
-            </div>
+                            <LiquidGlassButton
+                                onClick={handleComplete}
+                                fullWidth
+                                disabled={loading}
+                            >
+                                {loading ? 'Creating...' : 'Complete'}
+                            </LiquidGlassButton>
+                        </div>
+
+                        <LiquidGlassButton
+                            onClick={() => setStep(1)}
+                            fullWidth
+                            variant="secondary"
+                            style={{ marginTop: 'var(--space-2)' }}
+                        >
+                            Back
+                        </LiquidGlassButton>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </div>
         </div >
     )
 }

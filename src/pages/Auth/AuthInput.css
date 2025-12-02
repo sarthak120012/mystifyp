@@ -1,0 +1,107 @@
+/* Auth Input Specific Styles - DARK BROWN TEXT */
+.auth-input {
+    width: 100%;
+    padding: var(--space-3);
+    padding-left: 48px;
+    background: rgba(255, 255, 255, 0.5) !important;
+    backdrop-filter: blur(8px);
+    border: 2px solid rgba(141, 110, 99, 0.3);
+    border-radius: var(--radius-md);
+    color: #4E342E !important;
+    /* DARK BROWN TEXT */
+    font-size: 16px;
+    font-weight: 600 !important;
+    transition: all var(--transition-base);
+    min-height: 48px;
+}
+
+.auth-input:focus {
+    outline: none;
+    border-color: #8D6E63;
+    background: rgba(255, 255, 255, 0.6) !important;
+    box-shadow: 0 0 0 3px rgba(141, 110, 99, 0.2);
+}
+
+.auth-input::placeholder {
+    color: #795548 !important;
+    /* DARK BROWN PLACEHOLDER */
+    font-weight: 500;
+    opacity: 0.7;
+}
+
+/* Style the autofill to also be dark brown */
+.auth-input:-webkit-autofill,
+.auth-input:-webkit-autofill:hover,
+.auth-input:-webkit-autofill:focus,
+.auth-input:-webkit-autofill:active {
+    -webkit-text-fill-color: #4E342E !important;
+    -webkit-box-shadow: 0 0 0px 1000px rgba(255, 255, 255, 0.5) inset !important;
+    box-shadow: 0 0 0px 1000px rgba(255, 255, 255, 0.5) inset !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Onboarding input styles */
+.input {
+    width: 100%;
+    padding: var(--space-3);
+    background: rgba(255, 255, 255, 0.5) !important;
+    border: 2px solid rgba(141, 110, 99, 0.3);
+    border-radius: var(--radius-lg);
+    color: #4E342E !important;
+    /* DARK BROWN */
+    font-size: 16px;
+    font-weight: 600 !important;
+    transition: all var(--transition-base);
+}
+
+.input:focus {
+    outline: none;
+    border-color: #8D6E63;
+    background: rgba(255, 255, 255, 0.6) !important;
+    box-shadow: 0 0 0 3px rgba(141, 110, 99, 0.2);
+}
+
+.input::placeholder {
+    color: #795548 !important;
+    /* DARK BROWN */
+    font-weight: 500;
+    opacity: 0.7;
+}
+
+/* Select/Dropdown styling */
+select.input,
+select.auth-input {
+    color: #4E342E !important;
+    font-weight: 600 !important;
+    cursor: pointer;
+}
+
+select.input option,
+select.auth-input option {
+    background: #F5E6D3;
+    color: #4E342E;
+    font-weight: 600;
+    padding: 12px;
+}
+
+/* Username availability indicator */
+.username-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.username-status.available {
+    color: #4CAF50;
+}
+
+.username-status.taken {
+    color: #F44336;
+}
+
+.username-status.checking {
+    color: #795548;
+}
